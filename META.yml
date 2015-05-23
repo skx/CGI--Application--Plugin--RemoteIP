@@ -1,0 +1,28 @@
+--- #YAML:1.0
+name:               CGI-Application-Plugin-RemoteIP
+version:            0.1
+RemoteIPstract:     Remote IP-detection for CGI::Application-based applications.
+author:
+    - Steve Kemp <steve@steve.org.uk>
+license:            unknown
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
+requires:
+    CGI::Application:  0
+    Redis:             0
+resources:
+    bugtracker:  https://github.com/skx/CGI--Application--Plugin--RemoteIP/issues
+    homepage:    https://github.com/skx/CGI--Application--Plugin--RemoteIP/
+    license:     http://dev.perl.org/licenses/
+    repository:  https://github.com/skx/CGI--Application--Plugin--RemoteIP.git
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.57_05
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4
