@@ -45,6 +45,9 @@ Instead your code and use the simpler expression:
 
 =for example end
 
+The caveat, which is B<crucial> is that you must trust any proxies
+en route if you wish to use the C<X-Forwarded-For> header.
+
 =cut
 
 use strict;
@@ -82,7 +85,8 @@ sub import
 
 =head2 remote_ip
 
-Return the remote IP of the visitor
+Return the remote IP of the visitor, whether via the C<X-Forwarded-For> header
+or via the standard CGI environmental variable C<REMOTE_ADDR>.
 
 =cut
 
@@ -127,9 +131,17 @@ sub remote_ip
 
 }
 
+
+=begin doc
+
+Determine whether the remote IP address is IPv4.
+
+=end doc
+
+=cut
+
 sub is_ipv4
 {
-
     # Get the IP
     my $self = shift;
     my $ip   = $self->remote_ip();
@@ -145,9 +157,17 @@ sub is_ipv4
     }
 }
 
+
+=begin doc
+
+Determine whether the remote IP address is IPv6.
+
+=end doc
+
+=cut
+
 sub is_ipv6
 {
-
     # Get the IP
     my $self = shift;
     my $ip   = $self->remote_ip();
