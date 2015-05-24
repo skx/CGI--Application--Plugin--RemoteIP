@@ -13,14 +13,17 @@ SYNOPSIS
       }
 
 DESCRIPTION
-    This module simplifies the handling of the detection of the remote IP
-    address(es) of visitors.
+    This module simplifies the detection of the remote IP address of your
+    visitors.
 
 MOTIVATION
     This module allows you to remove scattered references in your code, such
     as:
 
+        # Get IP
         my $ip = $ENV{'REMOTE_ADDR'};
+
+        # Remove faux IPv6-prefix.
         $ip =~ s/^::ffff://g;
         ..
 
@@ -28,12 +31,36 @@ MOTIVATION
 
         my $ip = $self->remote_ip();
 
+SECURITY
+    The code in this module will successfully understand the
+    "X-Forwarded-For" header and trust it.
+
+    Unless you have setup any proxy, or webserver, to scrub this header this
+    means the value that is used is at risk of being spoofed, bogus, or
+    otherwise malicious.
+
 METHODS
   import
-    Force the "remote_ip" method into the caller's namespace.
+    Add our three public-methods into the caller's namespace:
+
+    remote_ip
+            The remote IP of the client.
+
+    is_ipv4 A method to return 1 if the visitor is using IPv4 and 0
+            otherwise.
+
+    is_ipv6 A method to return 1 if the visitor is using IPv6 and 0
+            otherwise.
 
   remote_ip
-    Return the remote IP of the visitor
+    Return the remote IP of the visitor, whether via the "X-Forwarded-For"
+    header or via the standard CGI environmental variable "REMOTE_ADDR".
+
+  is_ipv4
+    Determine whether the remote IP address is IPv4.
+
+  is_ipv6
+    Determine whether the remote IP address is IPv6.
 
 AUTHOR
     Steve Kemp <steve@steve.org.uk>

@@ -20,8 +20,7 @@ CGI::Application::Plugin::RemoteIP - Unified Remote IP handling
 
 =head1 DESCRIPTION
 
-This module simplifies the handling of the detection of the remote
-IP address(es) of visitors.
+This module simplifies the detection of the remote IP address of your visitors.
 
 =cut
 
@@ -31,7 +30,10 @@ This module allows you to remove scattered references in your code, such as:
 
 =for example begin
 
+    # Get IP
     my $ip = $ENV{'REMOTE_ADDR'};
+
+    # Remove faux IPv6-prefix.
     $ip =~ s/^::ffff://g;
     ..
 
@@ -45,8 +47,16 @@ Instead your code and use the simpler expression:
 
 =for example end
 
-The caveat, which is B<crucial> is that you must trust any proxies
-en route if you wish to use the C<X-Forwarded-For> header.
+=cut
+
+=head1 SECURITY
+
+The code in this module will successfully understand the C<X-Forwarded-For>
+header and B<trust> it.
+
+Unless you have setup any proxy, or webserver, to scrub this header this means
+the value that is used is at risk of being spoofed, bogus, or otherwise
+malicious.
 
 =cut
 
@@ -64,7 +74,24 @@ our $VERSION = '0.1';
 
 =head2 import
 
-Force the C<remote_ip> method into the caller's namespace.
+Add our three public-methods into the caller's namespace:
+
+=over 8
+
+=item remote_ip
+
+The remote IP of the client.
+
+=item is_ipv4
+
+A method to return 1 if the visitor is using IPv4 and 0 otherwise.
+
+=item is_ipv6
+
+A method to return 1 if the visitor is using IPv6 and 0 otherwise.
+
+=back
+
 =cut
 
 sub import
@@ -95,8 +122,8 @@ sub remote_ip
     my $cgi_app = shift;
 
     # X-Forwarded-For header is the first thing we look for.
-    my $forwarded = $ENV{ 'HTTP_X_FORWARDED_FOR' };
-    if ($forwarded)
+    my $forwarded = $ENV{ 'HTTP_X_FORWARDED_FOR' } || "";
+    if ( length $forwarded )
     {
 
         # Split in case there are multiple values
@@ -106,12 +133,12 @@ sub remote_ip
         {
 
             # Get the first/trusted value.
-            my $ip = @vals[0];
+            my $ip = $vals[0];
 
             # drop IPv6 prefix
             $ip =~ s/^::ffff://gi;
 
-            # Drop a port
+            # Drop any optional port
             $ip =~ s/:([0-9]+)$//g;
 
             return $ip;
@@ -119,12 +146,12 @@ sub remote_ip
     }
 
     # This should always work.
-    my $ip = $ENV{ 'REMOTE_ADDR' };
+    my $ip = $ENV{ 'REMOTE_ADDR' } || "";
 
     # drop IPv6 prefix
     $ip =~ s/^::ffff://gi;
 
-    # Drop a port
+    # Drop any optional port
     $ip =~ s/:([0-9]+)$//g;
 
     return ($ip);
@@ -132,16 +159,15 @@ sub remote_ip
 }
 
 
-=begin doc
+=head2 is_ipv4
 
 Determine whether the remote IP address is IPv4.
-
-=end doc
 
 =cut
 
 sub is_ipv4
 {
+
     # Get the IP
     my $self = shift;
     my $ip   = $self->remote_ip();
@@ -158,16 +184,15 @@ sub is_ipv4
 }
 
 
-=begin doc
+=head2 is_ipv6
 
 Determine whether the remote IP address is IPv6.
-
-=end doc
 
 =cut
 
 sub is_ipv6
 {
+
     # Get the IP
     my $self = shift;
     my $ip   = $self->remote_ip();
