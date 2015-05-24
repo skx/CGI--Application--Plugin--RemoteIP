@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:               CGI-Application-Plugin-RemoteIP
 version:            0.1
-RemoteIPstract:     Remote IP-detection for CGI::Application-based applications.
+RemoteIPstract:     Unified remote IP-detection for CGI::Application-based applications.
 author:
     - Steve Kemp <steve@steve.org.uk>
 license:            unknown

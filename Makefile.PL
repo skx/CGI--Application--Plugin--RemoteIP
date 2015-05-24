@@ -21,7 +21,7 @@ my %WriteMakefileArgs = (
         'Test::NoTabs' => 0,
     },
 
-    ABSTRACT => 'Remote-IP detection for CGI::Application-based applications.',
+    ABSTRACT => 'Unified remote IP-detection for CGI::Application-based applications',
     AUTHOR   => 'Steve Kemp <steve@steve.org.uk>',
     LICENSE  => "perl",
 
