@@ -1,2 +1,7 @@
 0.1 - 23-05-2015
 	- Initial release.
+
+0.2 - 
+    - Use $SSH_CLIENT if $REMOTE_ADDR isn't available.
+	- Explicitly die on failure to determine remote IP.
+	- Cleaned up git repository
