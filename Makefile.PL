@@ -35,8 +35,6 @@ my %WriteMakefileArgs = (
                'https://github.com/skx/CGI--Application--Plugin--RemoteIP/issues',
              repository =>
                'https://github.com/skx/CGI--Application--Plugin--RemoteIP.git',
-             GitMirror =>
-               'http://git.steve.org.uk/cpan/CGI--Application--Plugin--RemoteIP',
          },
     },
 );
